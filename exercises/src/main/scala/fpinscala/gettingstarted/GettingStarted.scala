@@ -16,27 +16,35 @@ object MyModule {
   def main(args: Array[String]): Unit =
     println(formatAbs(-42))
 
-  // A definition of factorial, using a local, tail recursive function
+  // A definition of factorial, using a LOCAL, tail recursive function
   def factorial(n: Int): Int = {
-    @annotation.tailrec
+    @annotation.tailrec    // Compilation error if recursion elimination fails.
     def go(n: Int, acc: Int): Int =
       if (n <= 0) acc
-      else go(n-1, n*acc)
+      else go(n-1, n * acc)
 
     go(n, 1)
   }
 
   // Another implementation of `factorial`, this time with a `while` loop
   def factorial2(n: Int): Int = {
-    var acc = 1
-    var i = n
+    var acc = 1    // Mutability is a necessary evil here.
+    var i = n      // Likewise
     while (i > 0) { acc *= i; i -= 1 }
     acc
   }
 
   // Exercise 1: Write a function to compute the nth fibonacci number
-
-  def fib(n: Int): Int = ???
+  // Problem statements suggests use of tail recursive function.
+  def fib(n: Int): Int = {
+    @annotation.tailrec
+    def loop(index: Int, prev: Int, curr: Int): Int = {
+      if (index >= n) curr
+      else loop((n + 1), lag1, next)
+    }
+    // TODO: determine if 0 is the 0th or 1st element.
+    loop(1, 0, 1)
+  }
 
   // This definition and `formatAbs` are very similar..
   private def formatFactorial(n: Int) = {
