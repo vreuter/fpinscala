@@ -154,12 +154,12 @@ object PolymorphicFunctions {
   def isSorted[A](as: Array[A], gt: (A,A) => Boolean): Boolean = {
     @annotation.tailrec
     def go(i: Int) {
-      if (i == as.length) true
-      else if (as(i - 1) > a(i)) false
-      else go(i + 1)
+      if (i == as.length) true            // Out of elements
+      else if (as(i - 1) > a(i)) false    // Out of order
+      else go(i + 1)                      // Recurse.
     }
-    if (as.length < 2) true
-    else go(1)
+    if (as.length < 2) true    // Trivially sorted
+    else go(1)                 // Compare backward, so begin with 1.
   }
 
   // Polymorphic functions are often so constrained by their type
@@ -173,7 +173,12 @@ object PolymorphicFunctions {
   // Note that `=>` associates to the right, so we could
   // write the return type as `A => B => C`
   def curry[A,B,C](f: (A, B) => C): A => (B => C) =
-    ???
+    /*
+     * Take an A value, then return a function that takes a B value
+     * and passes that--along with the original A value--to the given
+     * Function2 to get the C value.
+     */
+    (a: A) => ((b: B) => f(a, b))
 
   // NB: The `Function2` trait has a `curried` method already
 
