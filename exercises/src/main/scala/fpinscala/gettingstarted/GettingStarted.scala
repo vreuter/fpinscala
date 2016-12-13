@@ -40,7 +40,7 @@ object MyModule {
     @annotation.tailrec
     def loop(index: Int, prev: Int, curr: Int): Int = {
       if (index >= n) curr
-      else loop((n + 1), lag1, next)
+      else loop((n + 1), curr, (curr + prev))
     }
     /*
      * Call the local tail recursive function with initial conditions.
@@ -151,7 +151,16 @@ object PolymorphicFunctions {
 
   // Exercise 2: Implement a polymorphic function to check whether
   // an `Array[A]` is sorted
-  def isSorted[A](as: Array[A], gt: (A,A) => Boolean): Boolean = ???
+  def isSorted[A](as: Array[A], gt: (A,A) => Boolean): Boolean = {
+    @annotation.tailrec
+    def go(i: Int) {
+      if (i == as.length) true
+      else if (as(i - 1) > a(i)) false
+      else go(i + 1)
+    }
+    if (as.length < 2) true
+    else go(1)
+  }
 
   // Polymorphic functions are often so constrained by their type
   // that they only have one implementation! Here's an example:
