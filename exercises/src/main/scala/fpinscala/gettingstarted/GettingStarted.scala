@@ -42,8 +42,11 @@ object MyModule {
       if (index >= n) curr
       else loop((n + 1), lag1, next)
     }
-    // TODO: determine if 0 is the 0th or 1st element.
-    loop(1, 0, 1)
+    /*
+     * Call the local tail recursive function with initial conditions.
+     * Initial conditions here define 0 as 1st element, 1 as 2nd element.
+     */
+    loop(3, 0, 1)
   }
 
   // This definition and `formatAbs` are very similar..
