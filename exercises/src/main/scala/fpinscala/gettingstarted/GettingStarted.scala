@@ -154,9 +154,9 @@ object PolymorphicFunctions {
   def isSorted[A](as: Array[A], gt: (A,A) => Boolean): Boolean = {
     @annotation.tailrec
     def go(i: Int): Boolean = {
-      if (i == as.length) true            // Out of elements
+      if (i == as.length) true                // Out of elements
       else if (gt(as(i - 1), as(i))) false    // Out of order
-      else go(i + 1)                      // Recurse.
+      else go(i + 1)                          // Recurse.
     }
     if (as.length < 2) true    // Trivially sorted
     else go(1)                 // Compare backward, so begin with 1.
