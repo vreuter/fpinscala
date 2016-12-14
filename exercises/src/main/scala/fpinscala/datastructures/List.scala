@@ -57,7 +57,7 @@ object List { // `List` companion object. Contains functions for creating and wo
 
   /* Exercises & any other personal implementations after this */
 
-  def tail[A](l: List[A]): List[A] = {
+  def tail[A](l: List[A]): List[A] = l match {
     // TODO: determine if length-1 list will be handled here.
     case Cons(_, as) => as
     case Nil => Nil
@@ -69,7 +69,7 @@ object List { // `List` companion object. Contains functions for creating and wo
     @annotation.tailrec
     def loop(i: Int, t: List[A]): List[A] = {
       if (i == n) t
-      else loop(i + 1, tail(A))
+      else loop(i + 1, tail(t))
     }
     loop(0, l)
   }
