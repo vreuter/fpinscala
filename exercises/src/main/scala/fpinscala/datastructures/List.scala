@@ -64,8 +64,10 @@ object List { // `List` companion object. Contains functions for creating and wo
     case Nil => Nil
   }
 
+  /* Update value of head element of list. */
   def setHead[A](l: List[A], h: A): List[A] = Cons(h, l)
 
+  /* Shed the first n elements of a list. */
   def drop[A](l: List[A], n: Int): List[A] = {
     @annotation.tailrec
     def loop(i: Int, t: List[A]): List[A] = {
@@ -95,7 +97,16 @@ object List { // `List` companion object. Contains functions for creating and wo
     go(l)
   }
 
-  def init[A](l: List[A]): List[A] = sys.error("todo")
+  def init[A](l: List[A]): List[A] = {
+    def loop(prefix: List[A], remaining: List[A]): List[A] =
+      remaining match {
+        // Handle case in which empty list is passed as initial argument
+        case Nil => Nil
+        case Cons(a, Nil) => prefix
+        case Cons(a, as) => loop(prefix :+ a, as)
+    }
+    loop(Nil, l)
+  }
 
   def length[A](l: List[A]): Int = sys.error("todo")
 
