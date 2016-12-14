@@ -60,6 +60,7 @@ object List { // `List` companion object. Contains functions for creating and wo
   def tail[A](l: List[A]): List[A] = l match {
     // TODO: determine if length-1 list will be handled here.
     case Cons(_, as) => as
+    // TODO: also determine if Nil is valid as return. Even if so, would empty list be better for Nil input?
     case Nil => Nil
   }
 
@@ -74,7 +75,25 @@ object List { // `List` companion object. Contains functions for creating and wo
     loop(0, l)
   }
 
-  def dropWhile[A](l: List[A], f: A => Boolean): List[A] = sys.error("todo")
+  // Drop elements from list PREFIX that match predicate
+  // A slightly better design may be to define this i.t.o. logical complement.
+  // Then, the first occurrence of false for Boolean would indicate termination.
+  def dropWhile[A](l: List[A], f: A => Boolean): List[A] = {
+    /* Note that boolean evaluation is single-element. */
+    @annotation.tailrec
+    def go(sublist: List[A]): List[A] = sublist match {
+      // Guard against a predicate that loop infinitely.
+      // Such a loop could be defined with a function argument
+      // that evaluates to true for
+      // TODO: determine just how pattern matching works here, with regard to 0- or 1-element list.
+      case Cons(a, as) => {
+        if (f(a)) go(as)
+        else sublist
+      }
+      case Nil => Nil
+    }
+    go(l)
+  }
 
   def init[A](l: List[A]): List[A] = sys.error("todo")
 
