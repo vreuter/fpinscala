@@ -97,6 +97,7 @@ object List { // `List` companion object. Contains functions for creating and wo
     go(l)
   }
 
+  /* Drop the final element from input list. */
   def init[A](l: List[A]): List[A] = {
     def loop(prefix: List[A], remaining: List[A]): List[A] =
       remaining match {
