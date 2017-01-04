@@ -99,14 +99,15 @@ object List { // `List` companion object. Contains functions for creating and wo
 
   /* Drop the final element from input list. */
   def init[A](l: List[A]): List[A] = {
-    def loop(prefix: List[A], remaining: List[A]): List[A] =
+    def loop(previous: List[A], current: List[A], remaining: List[A]): List[A] =
       remaining match {
         // Handle case in which empty list is passed as initial argument
-        case Nil => Nil
+        case Nil => previous
         case Cons(a, Nil) => prefix
         case Cons(a, as) => loop(prefix :+ a, as)
     }
-    loop(Nil, l)
+    if (l == Nil) Nil
+    else loop(Nil, l)
   }
 
   def length[A](l: List[A]): Int = sys.error("todo")
