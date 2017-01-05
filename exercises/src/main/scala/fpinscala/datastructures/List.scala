@@ -109,9 +109,29 @@ object List { // `List` companion object. Contains functions for creating and wo
     case Cons(h, t) => Cons(h, init(t))
   }
 
-  def length[A](l: List[A]): Int = sys.error("todo")
+  /* List length leveraging foldRight */
+  def length[A](l: List[A]): Int = {
+    // Initialize length to one, the increment.
+    foldRight(l, 0)((_, acc) => 1 + acc)
+  }
 
-  def foldLeft[A,B](l: List[A], z: B)(f: (B, A) => B): B = sys.error("todo")
+  /* Self-contained, recursive list length */
+  def lengthAlt[A](l: List[A]): Int = {
+    // Empty list has length of zero.
+    case Nil => 0
+    // Nonempty list length of 1 more than the length of its tail.
+    case Cons(h, t) => (1 + lengthAlt(t))
+  }
+
+  def foldLeft[A,B](l: List[A], z: B)(f: (B, A) => B): B = l match {
+    // Empty list gets the base/initial value.
+    case Nil => z
+    // Nonempty list results in recursive application of
+    // this function to the tail and the result of the
+    // application of the anonymous function to the initial
+    // value and the head of the given list.
+    case Cons(h, t) => foldLeft(t, f(z, h))(f)
+  }
 
   def map[A,B](l: List[A])(f: A => B): List[B] = sys.error("todo")
 
