@@ -133,6 +133,24 @@ object List { // `List` companion object. Contains functions for creating and wo
     case Cons(h, t) => foldLeft(t, f(z, h))(f)
   }
 
+  def sumViaFoldLeft(summands: List[Int]): Int = {
+    // Pass digits and summation function to foldLeft.
+    // Initial/base value for sum is 0.
+    foldLeft(summands, 0)(_ + _)
+  }
+
+  def productViaFoldLeft(factors: List[Int]): Double = {
+    // Pass digits and product function to foldLeft.
+    // Initial/base value for product is 1.0.
+    foldLeft(factors, 1.0)(_ * _)
+  }
+
+  def lengthViaFoldLeft[A](l: List[A]): Int = {
+    // For length, initial/base value is 0, as with sum.
+    // The accumulation is done via per-element increments.
+    foldLeft(l, 0)((_, acc) => 1 + acc)
+  }
+
   def map[A,B](l: List[A])(f: A => B): List[B] = sys.error("todo")
 
 }
