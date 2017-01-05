@@ -151,6 +151,13 @@ object List { // `List` companion object. Contains functions for creating and wo
     foldLeft(l, 0)((_, acc) => 1 + acc)
   }
 
+  def reverse[A](l: List[A]): List[A] = {
+    // For list buildup/reversal, the initial/base element is the empty list.
+    // Here, we should inform foldLeft about the element type to parameterize it.
+    // The anonymous function shoud construct a list from the tail followed by the head.
+    foldLeft(l, Nil:List[A])((origTail, origHead) => Cons(origTail, origHead))
+  }
+
   def map[A,B](l: List[A])(f: A => B): List[B] = sys.error("todo")
 
 }
