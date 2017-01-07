@@ -164,7 +164,7 @@ object List { // `List` companion object. Contains functions for creating and wo
 
   def foldRightViaFoldLeft[A, B](l: List[A], z: B)(f: (A, B) => B): B = l match {
     case Nil => z
-    case Cons(h, t) => foldRightViaFoldLeft()
+    case Cons(h, t) => foldRightViaFoldLeft(t, foldLeft())(f)
     /* Planning */
     // Should be done tail-recursively --> fold right no longer non-stack-safe
     // The recursive call should be either this function or foldLeft
