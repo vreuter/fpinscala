@@ -98,7 +98,6 @@ object List { // `List` companion object. Contains functions for creating and wo
   }
 
   /* Drop the final element from input list. */
-  @annotation.tailrec
   def init[A](l: List[A]): List[A] = l match {
     /*
      * This is somwhat of an ambiguous case; what's the
@@ -116,7 +115,7 @@ object List { // `List` companion object. Contains functions for creating and wo
   }
 
   /* Self-contained, recursive list length */
-  def lengthAlt[A](l: List[A]): Int = {
+  def lengthAlt[A](l: List[A]): Int = l match {
     // Empty list has length of zero.
     case Nil => 0
     // Nonempty list length of 1 more than the length of its tail.
@@ -148,23 +147,30 @@ object List { // `List` companion object. Contains functions for creating and wo
   def lengthViaFoldLeft[A](l: List[A]): Int = {
     // For length, initial/base value is 0, as with sum.
     // The accumulation is done via per-element increments.
-    foldLeft(l, 0)((_, acc) => 1 + acc)
+    foldLeft(l, 0)((acc, _) => 1 + acc)
   }
 
   def reverse[A](l: List[A]): List[A] = {
     // For list buildup/reversal, the initial/base element is the empty list.
-    // Here, we should inform foldLeft about the element type to parameterize it.
+    // Here, we should inform foldLeft about the element type for Nil to parameterize it.
     // The anonymous function shoud construct a list from the tail followed by the head.
-    foldLeft(l, Nil:List[A])((origTail, origHead) => Cons(origTail, origHead))
+    foldLeft(l, Nil:List[A])((newTail, prevTrail) => Cons(prevTrail, newTail))
   }
 
+
+  // TODO: implement, but noted as hard
+  /*
   def foldLeftViaFoldRight[A, B](l: list[A], z: B)(f: (B, A) => B): B = l match {
 
   }
+  */
 
+  // Right via left allows tail recursion and stack safety.
   def foldRightViaFoldLeft[A, B](l: List[A], z: B)(f: (A, B) => B): B = l match {
     case Nil => z
-    case Cons(h, t) => foldRightViaFoldLeft(t, foldLeft())(f)
+    case Cons(h, t) => z    // TODO: replace this dummy placeholder with real implementation.
+    // case Cons(h, t) => foldRightViaFoldLeft(t, foldLeft())(f)
+    // TODO: foldLeft() args above
     /* Planning */
     // Should be done tail-recursively --> fold right no longer non-stack-safe
     // The recursive call should be either this function or foldLeft
